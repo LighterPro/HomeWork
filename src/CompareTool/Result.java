@@ -1,80 +1,57 @@
 package CompareTool;
 
 class Result {
-    boolean isValid = false;
-    int errCnt = 0;
-    String stringOne = null;
-    String stringTwo = null;
+    private PersonalData objectOne = null;
+    private PersonalData objectTwo = null;
+    private TwoStringComparator firstNamesComparator = null;
+    private TwoStringComparator secondNamesComparator = null;
+    private TwoStringComparator patronymicNamesComparator = null;
 
-    void compareTwoStrings(String stringOne, String stringTwo) {
-        this.stringOne = stringOne;
-        this.stringTwo = stringTwo;
+    private boolean isValid = false;
+    private int errCnt = 0;
 
-        //Checking for string equality
-        if (stringOne.equals(stringTwo)) {
-            isValid = true;
-            return;
+    public Result(PersonalData objectOne, PersonalData objectTwo) {
+        this.objectOne = objectOne;
+        this.objectTwo = objectTwo;
+        this.firstNamesComparator = new TwoStringComparator(objectOne.getFirstName(), objectTwo.getFirstName());
+        this.secondNamesComparator = new TwoStringComparator(objectOne.getSecondName(), objectTwo.getSecondName());
+        this.patronymicNamesComparator = new TwoStringComparator(objectOne.getPatronymicName(), objectTwo.getPatronymicName());
+        isValid = firstNamesComparator.isValid() & secondNamesComparator.isValid() & patronymicNamesComparator.isValid();
+        errCnt = firstNamesComparator.getErrCnt() + secondNamesComparator.getErrCnt() + patronymicNamesComparator.getErrCnt();
+    }
+
+    private static String printBorder() {
+        StringBuilder border = new StringBuilder();
+        for (int i = 0; i < 150; i++) {
+            border.append("-");
         }
-
-        //Checking for one changed symbol
-        if (stringOne.length() == stringTwo.length()) {
-            //If characters at the same positions differ, increment the error counter
-            for (int i = 0; i < stringOne.length(); i++) {
-                if (stringOne.charAt(i) != stringTwo.charAt(i)) {
-                    errCnt++;
-                }
-            }
-            //Checking the number of differing characters
-            if (errCnt <= 1) {
-                isValid = true;
-            }
-            return;
-        }
-
-        if (stringOne.length() == stringTwo.length()) {
-
-            return;
-        }
-
-        //If string lengths are not equal
-        if (stringOne.length() != stringTwo.length()) {
-            String longString = null;
-            String shortString = null;
-            StringBuilder tempBuffer = new StringBuilder();
-
-            //Long and short string selection
-            if (stringOne.length() > stringTwo.length()) {
-                longString = stringOne;
-                shortString = stringTwo;
-            } else {
-                longString = stringTwo;
-                shortString = stringOne;
-            }
-
-            //Checking for one added or deleted character
-            if (longString.length() - shortString.length() == 1) {
-                //If the excess character is the last in a long string
-                if ((longString.substring(0, longString.length() - 1)).equals(shortString)) {
-                    isValid = true;
-                    //If the excess character is NOT the last in a long string
-                } else {
-                    for (int i = 0; i < longString.length() - 1; i++) {
-                        if (longString.charAt(i) != shortString.charAt(i)) {
-                            tempBuffer = tempBuffer.append(longString.substring(0, i)).append(longString.substring(i + 1));
-                            break;
-                        }
-                    }
-                    isValid = tempBuffer.toString().equals(shortString);
-                }
-                errCnt = 1;
-                return;
-            }
-        }
+        return border.toString();
     }
 
     @Override
     public String toString() {
-        return String.format("|%-52s|%-52s|%-10s|%-10s|%n",
-                stringOne, stringTwo, isValid, errCnt);
+        return String.format("%s%n" +
+                        "|%-20s|%-52s|%-52s|%-10s|%-10s|%n" +
+                        "%s%n" +
+                        "|%-20s|%-52s|%-52s|%-10s|%-10s|%n" +
+                        "|%-20s|%-52s|%-52s|%-10s|%-10s|%n" +
+                        "|%-20s|%-52s|%-52s|%-10s|%-10s|%n" +
+                        "%s%n" +
+                        "OBJECT 1: %s%n" +
+                        "OBJECT 2: %s%n" +
+                        "Result: isValid = %b; errCnt = %d ",
+                printBorder(),
+                "", "OBJECT 1", "OBJECT 2", "isValid", "errCnt",
+                printBorder(),
+                "first name", objectOne.getFirstName(), objectTwo.getFirstName(), firstNamesComparator.isValid(), firstNamesComparator.getErrCnt(),
+                "second name", objectOne.getSecondName(), objectTwo.getSecondName(), secondNamesComparator.isValid(), secondNamesComparator.getErrCnt(),
+                "patronymic name", objectOne.getPatronymicName(), objectTwo.getPatronymicName(), patronymicNamesComparator.isValid(), patronymicNamesComparator.getErrCnt(),
+                printBorder(),
+                objectOne.toString(),
+                objectTwo.toString(),
+                isValid, errCnt
+        );
     }
+
+
 }

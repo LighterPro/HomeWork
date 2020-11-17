@@ -27,71 +27,45 @@ public class Demo {
         return string.replaceAll("[^\\p{Alnum}]", "").toLowerCase();
     }
 
-    private static void printBorder() {
-        for (int i = 0; i < 150; i++) {
-            System.out.print("-");
-        }
-        System.out.println();
-    }
-
     public static void main(String[] args) throws IOException {
-        PersonalData object1 = new PersonalData();
-        PersonalData object2 = new PersonalData();
+        PersonalData objectOne = new PersonalData();
+        PersonalData objectTwo = new PersonalData();
 
-        //Data entry for OBJECT 1
+        //START entry PersonalData objects
+
+        //Data entry for PersonalData OBJECT 1
         System.out.println("---PersonalData OBJECT 1---");
 
         System.out.print("Please type OBJECT 1 first name: ");
-        object1.setFirstName(checkAndConvertString("Please type OBJECT 1 first name: "));
+        objectOne.setFirstName(checkAndConvertString("Please type OBJECT 1 first name: "));
 
         System.out.print("Please type OBJECT 1 second name: ");
-        object1.setSecondName(checkAndConvertString("Please type OBJECT 1 second name: "));
+        objectOne.setSecondName(checkAndConvertString("Please type OBJECT 1 second name: "));
 
         System.out.print("Please type OBJECT 1 patronymic name: ");
-        object1.setPatronymicName(checkAndConvertString("Please type OBJECT 1 patronymic name: "));
+        objectOne.setPatronymicName(checkAndConvertString("Please type OBJECT 1 patronymic name: "));
 
         System.out.println();
 
-        //Data entry for OBJECT 2
+        //Data entry for PersonalData OBJECT 2
         System.out.println("---PersonalData OBJECT 2---");
 
         System.out.print("Please type OBJECT 2 first name: ");
-        object2.setFirstName(checkAndConvertString("Please type OBJECT 2 first name: "));
+        objectTwo.setFirstName(checkAndConvertString("Please type OBJECT 2 first name: "));
 
         System.out.print("Please type OBJECT 2 second name: ");
-        object2.setSecondName(checkAndConvertString("Please type OBJECT 2 second name: "));
+        objectTwo.setSecondName(checkAndConvertString("Please type OBJECT 2 second name: "));
 
         System.out.print("Please type OBJECT 2 patronymic name: ");
-        object2.setPatronymicName(checkAndConvertString("Please type OBJECT 2 patronymic name: "));
+        objectTwo.setPatronymicName(checkAndConvertString("Please type OBJECT 2 patronymic name: "));
 
         System.out.println();
+        //END entry PersonalData objects
 
+        Result result = new Result(objectOne, objectTwo);
 
-        //Result output
-        System.out.println("---------------");
-        System.out.println("PersonalData OBJECT 1: " + object1);
-        System.out.println("PersonalData OBJECT 2: " + object2);
-        System.out.println();
+        //Output
 
-        Result result = new Result();
-
-        printBorder();
-        System.out.printf("|%-20s|%-52s|%-52s|%-10s|%-10s|%n",
-                "", "OBJECT 1", "OBJECT 2", "isValid", "errCount");
-        printBorder();
-
-        result.compareTwoStrings(object1.getFirstName(), object2.getFirstName());
-        System.out.printf("|%-20s", "first name");
-        System.out.print(result);
-
-        result.compareTwoStrings(object1.getSecondName(), object2.getSecondName());
-        System.out.printf("|%-20s", "second name");
-        System.out.print(result);
-
-        result.compareTwoStrings(object1.getPatronymicName(), object2.getPatronymicName());
-        System.out.printf("|%-20s", "patronymic name");
-        System.out.print(result);
-
-        printBorder();
+        System.out.println(result);
     }
 }
