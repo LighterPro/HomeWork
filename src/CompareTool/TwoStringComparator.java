@@ -1,12 +1,9 @@
 package CompareTool;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class TwoStringComparator {
 
-    private String stringOne = null;
-    private String stringTwo = null;
+    private String stringOne;
+    private String stringTwo;
     private boolean isValid = false;
     private int errCnt = 0;
 
@@ -45,8 +42,8 @@ public class TwoStringComparator {
 
         //If string lengths are not equal
         if (stringOne.length() != stringTwo.length()) {
-            String longString = null;
-            String shortString = null;
+            String longString;
+            String shortString;
 
 
             //Long and short string selection
@@ -68,7 +65,7 @@ public class TwoStringComparator {
                 } //If the excess character is NOT the last in a long string
                 for (int i = 0; i < longString.length() - 1; i++) {
                     if (longString.charAt(i) != shortString.charAt(i)) {
-                        tempBuffer = tempBuffer.append(longString.substring(0, i)).append(longString.substring(i + 1));
+                        tempBuffer.append(longString.substring(0, i)).append(longString.substring(i + 1));
                         break;
                     }
                 }
